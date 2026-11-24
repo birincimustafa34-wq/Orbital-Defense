@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#070a20">
+  <title>ORBITAL DEFENSE — Version 4.0</title>
+  <style>
+    :root{color-scheme:dark;font-family:system-ui,Segoe UI,Arial,sans-serif;background:#050719;color:#eaf7ff}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 25%,#17234a 0,#090d25 48%,#050719 100%)}
+    main{width:min(620px,100%);padding:30px;border:1px solid #42658b;border-radius:18px;background:#0c1430;text-align:center;box-shadow:0 18px 55px #0008}
+    h1{letter-spacing:.1em;color:#b9f7ff;margin:0 0 8px}
+    p{line-height:1.6;color:#c4d3ef}
+    #status{font-weight:700;color:#9ff7ff}
+    a{color:#9ff7ff}
+    code{overflow-wrap:anywhere}
+  </style>
+</head>
+<body>
+<main>
+  <h1>ORBITAL DEFENSE</h1>
+  <p>Version 4.0 — Combat Expansion</p>
+  <p id="status">Loading game data…</p>
+  <p id="fallback" hidden>Automatic loading is unavailable. Download <a href="./orbital-defense-v4-combat-expansion.html.gz">the compressed game file</a>, extract it with a gzip-compatible utility, then open the extracted HTML file in a browser.</p>
+</main>
+<script>
+(async()=>{
+  const status=document.getElementById("status");
+  const fallback=document.getElementById("fallback");
+  try{
+    if(!("DecompressionStream" in window)) throw new Error("This browser does not support gzip decompression.");
+    const response=await fetch("./orbital-defense-v4-combat-expansion.html.gz");
+    if(!response.ok) throw new Error("Game archive could not be loaded ("+response.status+").");
+    const html=await new Response(response.body.pipeThrough(new DecompressionStream("gzip"))).text();
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(error){
+    status.textContent="The game could not be loaded automatically.";
+    fallback.hidden=false;
+    console.error(error);
+  }
+})();
+</script>
+</body>
+</html>
