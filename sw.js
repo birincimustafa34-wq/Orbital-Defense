@@ -1,5 +1,5 @@
 const CACHE_NAME='orbital-defense-v5-0';
-const PACKAGE=Array.from({length:8},(_,i)=>'./orbital-defense-v5-0-'+i+'.b64');
+const PACKAGE=Array.from({length:8},(_,i)=>'./orbital-defense-v5-0-'+i+'.txt');
 const PRECACHE=['./',...PACKAGE];
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{
@@ -21,13 +21,9 @@ self.addEventListener('fetch',event=>{
  const url=new URL(request.url);
  if(url.origin!==self.location.origin)return;
  event.respondWith((async()=>{
-  const cache=await caches.open(CACHE_NAME);
-  const cached=await cache.match(request);
+  const cache=await caches.open(CACHE_NAME),cached=await cache.match(request);
   if(cached)return cached;
-  try{
-   const response=await fetch(request);
-   if(response.ok)cache.put(request,response.clone()).catch(()=>{});
-   return response;
-  }catch(_){return Response.error();}
+  try{const response=await fetch(request);if(response.ok)cache.put(request,response.clone()).catch(()=>{});return response;}
+  catch(_){return Response.error();}
  })());
 });

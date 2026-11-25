@@ -2,8 +2,6 @@
 
 Current playable build: **Version 5.0 — Hangar & Upgrade Bay**.
 
-Release commit: `8c338e1130eef000f7378a2b90dff6e80ee3f760`.
-
 ## Play
 https://birincimustafa34-wq.github.io/Orbital-Defense/
 
@@ -14,9 +12,9 @@ The game is a self-contained browser build and uses no third-party game librarie
 ### Individual pilot saves
 - Three local pilot slots, each with separate coins, permanent upgrades, run totals, and best score.
 - Each slot is saved in the current browser profile using localStorage and survives reloads and browser restarts.
-- The service worker caches the launcher and all game-package parts after the first successful online visit. The game can then launch offline on that same browser/device.
+- The service worker caches the launcher and all game-package parts after the first successful online visit, allowing offline play on that same browser/device.
 - **Save codes** export all three pilot profiles for manual transfer to another browser/device. Keep a code private: anyone who has it can import that save.
-- This GitHub Pages release is static and does not provide online accounts or cloud synchronization. Automatic sharing across browsers/devices requires an authenticated backend; local pilot slots remain isolated by browser profile.
+- This GitHub Pages build is static and does not provide online accounts or cloud synchronization. Automatic sharing across devices requires an authenticated backend; local pilot slots remain isolated by browser profile.
 
 ### Coin economy
 - Every new pilot starts with 3 coins.
@@ -50,17 +48,11 @@ Permanent upgrades belong to the selected pilot. Temporary Triple Shot and Auto 
 | Pause / resume | P or Escape |
 | Restart after game over | R |
 
-## Performance
-- Capped enemies, player shots, enemy shots, particles, missiles, and power-up capsules.
-- Static nebula backdrop, capped device pixel ratio, throttled HUD updates, and no real-time blur/shadow filters.
-- Canvas rendering, no external game libraries.
-
 ## Project files
 - `index.html` — V5.0 game launcher and gzip-package assembler.
-- `sw.js` — offline cache for the launcher and all eight package parts.
-- `orbital-defense-v5-0-0.b64` through `orbital-defense-v5-0-7.b64` — verified base64 sections of the gzip game package.
-- `orbital-defense-v4-2-power-up-expansion.html.gz` — retained V4.2 archive.
-- `orbital-defense-v4-combat-expansion.html.gz` — retained V4.0 archive.
+- `sw.js` — offline cache for launcher and all eight package parts.
+- `orbital-defense-v5-0-0.txt` through `orbital-defense-v5-0-7.txt` — verified base64 sections of the gzip game package.
+- V4.2 and V4.0 archives remain available in the repository.
 
 ## Save compatibility
 The local save format uses the `orbital-defense-pilot-profiles-v1` key. Save codes begin with `ODP1.`. Clearing browser data may remove local saves; export a save code periodically as a backup. This build has no cloud account or automatic cross-device sync.

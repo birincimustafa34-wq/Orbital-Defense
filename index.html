@@ -10,7 +10,7 @@
 :root{color-scheme:dark;font-family:system-ui,Segoe UI,Arial,sans-serif;background:#050719;color:#eaf7ff}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 25%,#17234a 0,#090d25 48%,#050719 100%)}
 main{width:min(620px,100%);padding:30px;border:1px solid #42658b;border-radius:18px;background:#0c1430;text-align:center;box-shadow:0 18px 55px #0008}
-h1{letter-spacing:.1em;color:#b9f7ff;margin:0 0 8px}p{line-height:1.6;color:#c4d3ef}#status{font-weight:700;color:#9ff7ff}a{color:#9ff7ff}
+h1{letter-spacing:.1em;color:#b9f7ff;margin:0 0 8px}p{line-height:1.6;color:#c4d3ef}#status{font-weight:700;color:#9ff7ff}
 </style>
 </head>
 <body>
@@ -18,34 +18,26 @@ h1{letter-spacing:.1em;color:#b9f7ff;margin:0 0 8px}p{line-height:1.6;color:#c4d
 <h1>ORBITAL DEFENSE</h1>
 <p>Version 5.0 — Hangar &amp; Upgrade Bay</p>
 <p id="status">Preparing your Hangar…</p>
-<p id="fallback" hidden>Automatic launch failed. Please refresh while online to cache the game for offline play.</p>
+<p id="fallback" hidden>Automatic launch failed. Refresh while online to cache the game for offline play.</p>
 </main>
 <script>
 (async()=>{
  const status=document.getElementById('status'),fallback=document.getElementById('fallback');
  try{
   if(!('DecompressionStream' in window))throw new Error('This browser does not support gzip decompression.');
-  if('serviceWorker' in navigator){
-   await navigator.serviceWorker.register('./sw.js');
-   await navigator.serviceWorker.ready;
-  }
-  const paths=Array.from({length:8},(_,i)=>'./orbital-defense-v5-0-'+i+'.b64');
+  if('serviceWorker' in navigator){await navigator.serviceWorker.register('./sw.js');await navigator.serviceWorker.ready;}
+  const paths=Array.from({length:8},(_,i)=>'./orbital-defense-v5-0-'+i+'.txt');
   const parts=await Promise.all(paths.map(async path=>{
-   const response=await fetch(path,{cache:'no-store'});
-   if(!response.ok)throw new Error('Missing game package part: '+path);
+   const response=await fetch(path);
+   if(!response.ok)throw new Error('Package request failed: '+path+' ('+response.status+')');
    return response.text();
   }));
-  const binary=atob(parts.join(''));
-  const bytes=new Uint8Array(binary.length);
+  const binary=atob(parts.join('')),bytes=new Uint8Array(binary.length);
   for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
   const html=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
-  if(!html.includes('Version 5.0')||!html.includes('HANGAR / UPGRADE BAY'))throw new Error('The game package failed its content check.');
+  if(!html.includes('Version 5.0')||!html.includes('HANGAR / UPGRADE BAY'))throw new Error('The decompressed game did not pass its content check.');
   document.open();document.write(html);document.close();
- }catch(error){
-  status.textContent='The game could not be loaded automatically.';
-  fallback.hidden=false;
-  console.error('ORBITAL DEFENSE V5.0 launch error:',error);
- }
+ }catch(error){status.textContent='The game could not be loaded automatically: '+error.message;fallback.hidden=false;console.error('ORBITAL DEFENSE V5.0 launch error:',error);}
 })();
 </script>
 </body>
