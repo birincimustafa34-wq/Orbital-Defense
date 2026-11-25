@@ -1,46 +1,41 @@
 # ORBITAL DEFENSE
 
-A standalone, browser-based space arcade shooter. The current repository build is **Version 4.0 — Combat Expansion**.
+Current playable build: **Version 4.1 — Nebula Defense Update**.
 
-## Play
+## Play online
+Open the GitHub Pages site: https://birincimustafa34-wq.github.io/Orbital-Defense/
 
-The repository includes an `index.html` launcher and the compressed standalone game build.
+The root launcher loads the compressed, self-contained game in the browser. No installation or third-party game libraries are required. A modern browser with the `DecompressionStream` API is recommended.
 
-To publish a playable web version with GitHub Pages:
-1. Open **Settings → Pages** in this repository.
-2. Under **Build and deployment**, choose **Deploy from a branch** and select **main** / **/(root)**, or configure GitHub Actions if preferred.
-3. Save the settings. Once GitHub Pages finishes publishing, open the site URL shown on that page.
-
-The launcher loads and decompresses the game archive in the browser. It requires a modern browser with the `DecompressionStream` API.
-
-## Run locally
-
-Download `orbital-defense-v4-combat-expansion.html.gz`, extract the gzip file with a compatible utility (for example, 7-Zip), and open the resulting HTML file in a modern browser. No installation or external game libraries are required.
+## Version 4.1 — Nebula Defense Update
+- **Shield Burst:** press X or tap SHIELD to absorb enemy projectiles and prevent hull-collision damage for 1.25 seconds. Cooldown: 8.5 seconds.
+- **Mobile controls:** virtual movement joystick, hold-to-fire button, weapon selector, and dedicated shield button.
+- **Personal best:** best score is saved locally in the browser and shown on the HUD.
+- **Safer focus handling:** the game pauses when the browser tab is hidden or loses focus; stuck movement/fire inputs are cleared.
+- **Lighter HUD work:** stats refresh at 8–9 updates per second rather than every animation frame.
+- **Performance safeguards:** capped entity/particle counts, static nebula generation, and a device-pixel-ratio cap remain in place.
 
 ## Version 4.0 — Combat Expansion
-
 - Endless wave-based survival with escalating enemy pressure.
-- Enemy classes include Carriers, Phantoms, Destroyers, drones, and boss ships.
 - Carriers deploy support drones; Phantoms periodically cloak; Destroyers absorb more damage.
-- Weapon options: Pulse Blaster, Plasma Cannon, and limited Homing Missiles.
-- Score, wave, kill count, hull integrity, pause, restart, and game-over flow.
-- Canvas rendering with capped enemy, projectile, missile, and particle counts; static nebula backdrop generation.
+- Pulse Blaster, Plasma Cannon, and limited Homing Missiles.
+- Boss ships, score, wave, kills, hull integrity, pause, restart, and game-over flow.
 
 ## Controls
-
 | Action | Input |
 |---|---|
-| Move | WASD or Arrow keys |
-| Fire | Space or click / hold |
-| Switch weapon | 1 / 2 / 3 |
+| Move | WASD or Arrow keys; mobile virtual joystick |
+| Fire | Space or click / hold; mobile FIRE button |
+| Switch weapon | 1 / 2 / 3; mobile weapon buttons |
+| Shield Burst | X; mobile SHIELD button |
 | Pause / resume | P or Escape |
 | Restart after game over | R |
 
+## Run locally
+Download `orbital-defense-v4-combat-expansion.html.gz`, extract it with a gzip-compatible utility (for example, 7-Zip), and open the extracted HTML file in a modern browser.
+
 ## Project structure
+- `index.html` — GitHub Pages launcher for the compressed game build.
+- `orbital-defense-v4-combat-expansion.html.gz` — compressed, standalone Version 4.1 game HTML.
 
-- `index.html` — browser launcher for the compressed game build.
-- `orbital-defense-v4-combat-expansion.html.gz` — compressed, standalone Version 4.0 game HTML.
-
-## Development notes
-
-This is a reconstructed Version 4.0 build based on the remembered Combat Expansion specification, not a bit-for-bit recovery of an earlier lost build. The embedded JavaScript passes a Node.js syntax check. Full browser gameplay and device-specific performance testing have not yet been completed.
+The original Version 4.0 build has been superseded in the public launcher; the repository history retains earlier revisions.
