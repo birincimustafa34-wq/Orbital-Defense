@@ -1,35 +1,43 @@
 # ORBITAL DEFENSE
 
-Current playable build: **Version 4.2 — Power-Up Expansion**.
+Current playable build: **Version 5.0 — Hangar & Upgrade Bay**.
 
-## Play online
-Open the GitHub Pages site: https://birincimustafa34-wq.github.io/Orbital-Defense/
+## Play
+https://birincimustafa34-wq.github.io/Orbital-Defense/
 
-The root launcher loads the versioned, compressed, self-contained game in the browser. No installation or third-party game libraries are required. A modern browser with the `DecompressionStream` API is recommended.
+The game is a self-contained browser build and uses no third-party game libraries.
 
-## Version 4.2 — Power-Up Expansion
+## Version 5.0 — Hangar & Upgrade Bay
 
-### Temporary power-ups
-- **Triple Shot (9 seconds):** affects the Pulse Blaster. Replaces its normal two 1-damage bolts (2 total damage per volley) with one forward 3-damage bolt and two smaller rear 0.5-damage bolts (4 total damage per volley).
-- **Auto Turret (12 seconds):** mounts a small auxiliary turret above the ship. It fires independently every 0.51 seconds (one third of the Pulse Blaster's normal 0.17-second volley cadence). Each support shot deals 0.5 damage and gently steers toward the nearest visible enemy.
-- Capsules appear periodically during a run and can also drop from destroyed enemies. Move into a capsule to collect it; no extra button is required.
-- The two effects have independent timers and can be active at the same time. Re-collecting an active type extends its remaining duration, up to a safety cap.
+### Individual pilot saves
+- Three local pilot slots, each with separate coins, permanent upgrades, run totals, and best score.
+- Each slot is saved in the current browser profile using localStorage and survives reloads and browser restarts.
+- The service worker caches the launcher and all game-package parts after the first successful online visit. The game can then launch offline on that same browser/device.
+- **Save codes** export all three pilot profiles for manual transfer to another browser/device. Keep a code private: anyone who has it can import that save.
+- This GitHub Pages release is static and does not provide online accounts or cloud synchronization. Automatic sharing across browsers/devices requires an authenticated backend; local pilot slots remain isolated by browser profile.
 
-### Existing combat systems
-- Endless wave-based survival with escalating enemy pressure.
-- Carriers deploy support drones; Phantoms periodically cloak; Destroyers absorb more damage; boss ships use heavier attack patterns.
+### Coin economy
+- Every new pilot starts with 3 coins.
+- Coins are awarded once at the end of a run: `max(1, floor(kills / 2) + floor(survival seconds / 40) + floor(score / 2500))`.
+- The balance and purchases are saved automatically for the active pilot.
+- Prices for levels 1–5 in each upgrade line: **3, 7, 15, 26, 42 coins**.
+
+### Four permanent upgrade paths
+1. **Pulse Core:** Pulse Blaster damage increases by 8% per level, up to +40%.
+2. **Triple Array:** collected Triple Shot lasts longer and deals more damage.
+3. **Turret AI:** collected Auto Turret gains damage, firing speed, and active duration.
+4. **Hull & Shield:** increases maximum hull by 10 per level, extends Shield Burst by 0.08 seconds per level, and reduces its cooldown by 0.5 seconds per level (down to a 6-second floor).
+
+Permanent upgrades belong to the selected pilot. Temporary Triple Shot and Auto Turret capsules remain run-only effects.
+
+## Existing combat systems
+- Endless space survival with escalating enemy pressure.
+- Carrier, Phantom, Destroyer, and boss enemy types.
 - Pulse Blaster, Plasma Cannon, and limited Homing Missiles.
-- **Shield Burst:** press X or tap SHIELD to absorb incoming projectiles and prevent hull-collision damage for 1.25 seconds. Cooldown: 8.5 seconds.
-- Personal best score is stored locally in the player's browser.
-- The game pauses when the browser tab is hidden or loses focus; held movement/fire inputs are cleared.
-
-### Performance safeguards
-- Capped enemies (32), player shots (90), enemy shots (100), particles (180), missiles (12), and power-up capsules (3).
-- Static nebula backdrop generation, a device-pixel-ratio cap, no per-frame blur/shadow filters, and HUD refresh throttled to approximately 8–9 times per second.
-- Canvas-based rendering with no external game libraries.
+- Shield Burst (X key / mobile button).
+- Temporary Triple Shot and Auto Turret power-up capsules.
 
 ## Controls
-
 | Action | Input |
 |---|---|
 | Move | WASD or Arrow keys; mobile virtual joystick |
@@ -40,13 +48,17 @@ The root launcher loads the versioned, compressed, self-contained game in the br
 | Pause / resume | P or Escape |
 | Restart after game over | R |
 
-## Run locally
-Download `orbital-defense-v4-2-power-up-expansion.html.gz`, extract it with a gzip-compatible utility (for example, 7-Zip), and open the extracted HTML file in a modern browser.
+## Performance
+- Capped enemies, player shots, enemy shots, particles, missiles, and power-up capsules.
+- Static nebula backdrop, capped device pixel ratio, throttled HUD updates, and no real-time blur/shadow filters.
+- Canvas rendering, no external game libraries.
 
-## Project structure
-- `index.html` — GitHub Pages launcher for the compressed game build.
-- `orbital-defense-v4-2-power-up-expansion.html.gz` — compressed, standalone Version 4.2 game HTML.
-- `orbital-defense-v4-combat-expansion.html.gz` — retained Version 4.0 archive from the initial reconstruction.
+## Project files
+- `index.html` — V5.0 game launcher and gzip-package assembler.
+- `sw.js` — offline cache for the launcher and all eight package parts.
+- `orbital-defense-v5-0-0.b64` through `orbital-defense-v5-0-7.b64` — verified base64 sections of the gzip game package.
+- `orbital-defense-v4-2-power-up-expansion.html.gz` — retained V4.2 archive.
+- `orbital-defense-v4-combat-expansion.html.gz` — retained V4.0 archive.
 
-## Upgrade-system roadmap
-The temporary power-up system is intentionally separate from permanent progression. A future **Hangar / Upgrade Bay** can add persistent credits, upgrade tiers, costs, and unlockable ship improvements without conflating run-only bonuses with permanent upgrades. That permanent upgrade menu is planned but is not active in this release.
+## Save compatibility
+The local save format uses the `orbital-defense-pilot-profiles-v1` key. Save codes begin with `ODP1.`. Clearing browser data may remove local saves; export a save code periodically as a backup. This build has no cloud account or automatic cross-device sync.
