@@ -2,6 +2,8 @@
 
 Current playable build: **Version 5.0 — Hangar & Upgrade Bay**.
 
+V5.0 package loader uses plain-text `.txt` chunks for reliable GitHub Pages delivery.
+
 ## Play
 https://birincimustafa34-wq.github.io/Orbital-Defense/
 
