@@ -2,6 +2,8 @@
 
 Current playable build: **Version 5.0 — Hangar & Upgrade Bay**.
 
+Release commit: `8c338e1130eef000f7378a2b90dff6e80ee3f760`.
+
 ## Play
 https://birincimustafa34-wq.github.io/Orbital-Defense/
 
